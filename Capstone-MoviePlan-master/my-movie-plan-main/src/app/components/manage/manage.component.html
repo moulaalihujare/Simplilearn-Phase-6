@@ -1,0 +1,215 @@
+<div class="wrapper w-100 my-2">
+  <div class="container-fluid row g-0 h-90vh">
+    <div class="col-lg-3 px-2 border-3 border-end row g-0">
+      <h2
+        class="
+          py-2
+          rounded
+          text-center text-dark
+          shadow-sm
+          border border-2 border-dark
+          align-self-start
+        "
+      >
+        Cinema Halls
+      </h2>
+      <div class="overflow-auto h-70vh">
+        <h1 *ngIf="!allAuditoriums" class="text-danger text-center">
+          Cinema Hall list is empty
+        </h1>
+        <mat-list role="list" *ngIf="allAuditoriums">
+          <mat-list-item
+            role="listitem"
+            *ngFor="let hall of allAuditoriums"
+            class="position-relative options pe-cursor rounded"
+            [ngClass]="{ highlight: hall.id == selectedCinemaHallId }"
+            (click)="onCinemaHallSelect(hall.id!)"
+          >
+            <div class="w-100">
+              {{ hall.name | uppercase }}
+            </div>
+            <span class="icon-holder w-auto">
+              <mat-icon
+                class="w-auto text-info me-1 pe-cursor edit-icon"
+                aria-hidden="false"
+                matTooltip="Edit Cinema Hall"
+                (click)="onEditCinemaHall(hall.id!)"
+                aria-label="edit icon"
+                >edit
+              </mat-icon>
+              <mat-icon
+                class="w-auto text-danger ms-1 pe-cursor delete-icon"
+                aria-hidden="false"
+                matTooltip="Delete Cinema Hall"
+                (click)="onDeleteCinemaHall(hall.id!)"
+                aria-label="delete icon"
+                >delete
+              </mat-icon>
+            </span>
+          </mat-list-item>
+        </mat-list>
+      </div>
+      <a
+        mat-raised-button
+        class="align-self-end mt-auto w-100 d-block"
+        color="warn"
+        routerLink="../add-auditorium"
+      >
+        Add Cinema Hall
+      </a>
+    </div>
+    <div class="col-lg-3 px-2 border-3 border-end row g-0">
+      <h2
+        class="
+          py-2
+          rounded
+          text-center text-dark
+          shadow-sm
+          align-self-start
+          border border-2 border-dark
+        "
+      >
+        Shows
+      </h2>
+      <div class="overflow-auto h-70vh">
+        <h1 *ngIf="!selectedShows" class="text-danger text-center">
+          Select a Cinema Hall
+        </h1>
+        <mat-list *ngIf="selectedShows" role="list">
+          <mat-list-item
+            role="listitem"
+            *ngFor="let show of selectedShows"
+            class="position-relative options pe-cursor rounded"
+            [ngClass]="{ highlight: show.id == selectedShowId }"
+            (click)="onShowSelect(show.id!)"
+          >
+            <div class="w-100 row g-0 justify-content-around">
+              <div class="col-5">{{ show.name | titlecase }}</div>
+              |
+              <div class="col-5">
+                {{ "Time: " + formatTime(show.startTime) }}
+              </div>
+            </div>
+            <span class="icon-holder w-auto">
+              <mat-icon
+                class="w-auto text-info me-1 pe-cursor edit-icon"
+                aria-hidden="false"
+                matTooltip="Edit Show"
+                aria-label="edit icon"
+                (click)="onEditShow(show.id!)"
+                >edit</mat-icon
+              >
+              <mat-icon
+                class="w-auto text-danger ms-1 pe-cursor delete-icon"
+                aria-hidden="false"
+                matTooltip="Delete Show"
+                aria-label="delete icon"
+                (click)="onDeleteShow(show.id!)"
+                >delete</mat-icon
+              >
+            </span>
+          </mat-list-item>
+        </mat-list>
+      </div>
+      <button
+        *ngIf="selectedShows"
+        mat-raised-button
+        class="align-self-end mt-auto w-100 d-block"
+        (click)="onAddShow()"
+        color="accent"
+      >
+        Add Show
+      </button>
+    </div>
+    <div class="col-lg-6 px-2 row g-0">
+      <h2
+        class="
+          py-2
+          rounded
+          text-center text-dark
+          shadow-sm
+          align-self-start
+          border border-2 border-dark
+        "
+      >
+        Movies
+      </h2>
+      <div class="overflow-auto h-70vh">
+        <h1
+          *ngIf="selectedShowId && !selectedMovieShows"
+          class="text-warning text-center"
+        >
+          Selected Show has no movies
+        </h1>
+        <h1 *ngIf="!selectedShowId" class="text-danger text-center">
+          Select a Show
+        </h1>
+        <mat-list *ngIf="selectedShowId" role="list">
+          <mat-list-item
+            role="listitem"
+            *ngFor="let shows of selectedMovieShows"
+            class="position-relative show-options pe-cursor rounded h-auto py-2"
+          >
+            <div class="w-100">
+              <img
+                class="example-option-img me-2 rounded d-inline-block"
+                aria-hidden
+                [src]="getMovieImage(shows.movieId!)"
+                height="120"
+                width="120"
+              />
+              {{
+                (getShowMovieName(shows.movieId!) | titlecase) +
+                  " | lang: " +
+                  getShowMovieLanguage(shows.movieId!) +
+                  " | start: " +
+                  (shows.start | date: "longDate") +
+                  " | end: " +
+                  (shows.end | date: "longDate")
+              }}
+            </div>
+            <span class="icon-holder w-auto">
+              <mat-icon
+                class="w-auto text-info me-1 pe-cursor edit-icon"
+                aria-hidden="false"
+                matTooltip="Edit Movie Show"
+                aria-label="edit icon"
+                (click)="onEditMovie(shows.id!)"
+                >edit</mat-icon
+              >
+              <mat-icon
+                class="w-auto text-danger ms-1 pe-cursor delete-icon"
+                aria-hidden="false"
+                matTooltip="Delete Movie Show"
+                aria-label="delete icon"
+                (click)="onDeleteMovie(shows.id!)"
+                >delete</mat-icon
+              >
+            </span>
+          </mat-list-item>
+        </mat-list>
+      </div>
+      <div
+        class="row g-0 align-self-end mt-auto col-12 justify-content-between"
+      >
+        <a
+          mat-raised-button
+          class="col-5 text-capitalize"
+          routerLink="../add-movie"
+          color="primary"
+        >
+          Add New Movie
+        </a>
+        <button
+          *ngIf="selectedShowId"
+          mat-raised-button
+          class="col-5 text-capitalize"
+          (click)="onAddMovieToTheShow()"
+          color="warn"
+        >
+          Add movie to the show
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

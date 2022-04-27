@@ -1,0 +1,176 @@
+<div class="screen-container w-100 py-3 bg-dark text-white">
+  <span class="d-inline-block text-warning mx-auto text-center py-2 w-100"
+    >NOTE: do not refresh the page</span
+  >
+  <div class="my-auto row g-0 align-content-center">
+    <div class="ticket-details mb-3 row g-0 justify-content-between">
+      <div class="col-4 text-center">
+        Movie: &nbsp;
+        <span class="lead text-white">{{
+          selectMembers.movieName | uppercase
+        }}</span>
+      </div>
+
+      <div class="col-4 text-center">
+        Time: &nbsp;
+        <span class="lead">{{ formatTime(selectMembers.showTime) }}</span>
+      </div>
+
+      <div class="col-4 text-center">
+        Date: &nbsp;
+        <span class="lead">{{ selectMembers.date | date: "fullDate" }}</span>
+      </div>
+    </div>
+
+    <div class="ticket-details mb-3 row g-0 justify-content-between">
+      <div class="col-4 text-center">
+        Seats Selected: &nbsp;
+        <span class="lead text-danger">{{ getSelectedSeats() }}</span>
+      </div>
+
+      <div class="col-4 text-center">
+        Amount: &nbsp;
+        <span class="lead">{{ totalAmount }}</span>
+      </div>
+
+      <div class="col-4 text-center">
+        <button
+          mat-raised-button
+          type="submit"
+          [disabled]="seatsToBeSelected != 0"
+          (click)="onProceed()"
+        >
+          Proceed
+        </button>
+      </div>
+    </div>
+
+    <!-- <div class="row g-0 text-center">
+      <div class="col-4 text-center">
+        <mat-icon
+          class="fs-sm-5 fs-lg-3 w-auto h-auto text-danger"
+          aria-hidden="false"
+          aria-label="Example home icon"
+          >chair
+        </mat-icon>
+        - <span class="text-white">Booked</span>
+      </div>
+      <div class="col-4 text-center">
+        <mat-icon
+          class="fs-sm-5 fs-lg-3 w-auto h-auto text-white"
+          aria-hidden="false"
+          aria-label="Example home icon"
+          >chair
+        </mat-icon>
+        - <span class="text-white">Avaliable</span>
+      </div>
+      <div class="col-4 text-center">
+        <mat-icon
+          class="fs-sm-5 fs-lg-3 w-auto h-auto text-info"
+          aria-hidden="false"
+          aria-label="Example home icon"
+          >chair
+        </mat-icon>
+        - <span class="text-white">Your Selection</span>
+      </div>
+    </div> -->
+
+    <div
+      class="screen-layout position-relative w-100 bg-dark text-white p-sm-0"
+    >
+      <mat-card class="bg-dark text-white text-center">
+        <mat-list class="bg-dark text-white">
+          <ng-container
+            *ngFor="let item of tempSeatColumns.reverse(); index as i"
+          >
+            <h3 class="text-danger m-1" *ngIf="i == 7">
+              <!-- EXECUTIVE &#8377;200.00 -->
+              EXECUTIVE {{ generalPrice$ | async | currency: "INR" }}
+            </h3>
+            <h3 class="text-danger m-1" *ngIf="i == 3">
+              SILVER {{ silverPrice$ | async | currency: "INR" }}
+            </h3>
+            <h3 class="text-danger m-1" *ngIf="i == 0">
+              GOLD {{ goldPrice$ | async | currency: "INR" }}
+            </h3>
+            <mat-list-item class="justify-content-center py-1 h-auto px-sm-0">
+              <!-- <div class="col-1 text-info fs-3 px-sm-0">{{ item }}</div> -->
+              <div
+                class="
+                  row
+                  col-12
+                  g-0
+                  mx-auto
+                  justify-content-center
+                  px-sm-0
+                  text-center
+                "
+              >
+                <div class="col-1 text-center text-info fs-3">
+                  {{ item }}
+                </div>
+                <div class="col-auto">
+                  <ng-container *ngFor="let seat of tempSeatRows; index as i">
+                    <div
+                      class="me-sm-1 mx-lg-4 d-inline"
+                      *ngIf="i == 3 || i == 7"
+                    ></div>
+                    <input
+                      type="checkbox"
+                      class="btn-check"
+                      name="{{ item + seat }}"
+                      [checked]="isAdded(item + seat)"
+                      [disabled]="isSeatAlreadySelected(item + seat)"
+                      [id]="item + seat"
+                      [value]="item + seat"
+                      (click)="addSeat($event)"
+                    />
+                    <label
+                      [for]="item + seat"
+                      class="
+                        col-auto
+                        p-sm-0
+                        me-sm-1
+                        ms-sm-0
+                        mx-lg-2
+                        pe-cursor
+                        h-auto
+                      "
+                      [ngClass]="{
+                        'text-white': !isAdded(item + seat),
+                        'text-info': isAdded(item + seat),
+                        'text-danger': isSeatAlreadySelected(item + seat)
+                      }"
+                    >
+                      <mat-icon
+                        class="fs-sm-5 fs-lg-3 w-auto h-auto"
+                        aria-hidden="false"
+                        aria-label="Example home icon"
+                        >chair
+                      </mat-icon>
+                    </label>
+                  </ng-container>
+                </div>
+              </div>
+            </mat-list-item>
+          </ng-container>
+        </mat-list>
+      </mat-card>
+    </div>
+
+    <div
+      class="
+        screen
+        col-10
+        mx-auto
+        py-3
+        text-white
+        bg-danger
+        text-center
+        mt-sm-1 mt-lg-4
+      "
+    >
+      Screen is this way
+    </div>
+  </div>
+</div>

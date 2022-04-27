@@ -1,0 +1,116 @@
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.bg-show {
+  background-color: #333545;
+}
+
+.text-show {
+  color: #333545;
+}
+
+.rounded-5 {
+  border-radius: 1.5rem;
+}
+
+.pe-cursor {
+  cursor: pointer;
+}
+
+.underline {
+  width: 30px;
+  height: 2px;
+  background: #c80910;
+  margin: 20px 5px;
+}
+.h-100vh {
+  height: 100vh;
+}
+
+.h-90vh {
+  height: 90vh;
+}
+
+.h-80vh {
+  height: 80vh;
+}
+
+.h-70vh {
+  height: 70vh;
+}
+
+.edit-icon,
+.delete-icon {
+  opacity: 0.5;
+}
+
+.edit-icon:hover {
+  opacity: 1;
+}
+
+.highlight {
+  background-color: #000 !important;
+  color: #fff !important;
+}
+
+.delete-icon:hover {
+  opacity: 1;
+}
+
+.icon-holder,
+.show-options {
+  display: none;
+  position: absolute;
+  right: 5%;
+  top: 25%;
+  z-index: 100;
+  width: auto;
+}
+
+.show-options {
+  right: 10px;
+  top: 38%;
+}
+
+.options:hover,
+.show-options:hover {
+  background-color: rgba(0, 0, 0, 0.459);
+  color: #fff;
+}
+
+.options:hover .icon-holder {
+  display: inline-block;
+}
+
+/* For Sneak bar */
+.danger-alert {
+  background-color: rgb(187, 12, 12);
+  color: #fff;
+}
+
+.success-alert {
+  background-color: rgb(8, 121, 8);
+  color: #fff;
+}
+
+.warning-alert {
+  background-color: rgba(170, 146, 7, 0.993);
+  color: #fff;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
